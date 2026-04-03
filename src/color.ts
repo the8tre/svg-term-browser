@@ -34,7 +34,7 @@ export function color<T extends ColorTheme>(input: ColorInput<T>, theme?: T, fal
   }
 
   if (!fallback) {
-    throw new TypeError(`color: Unknown ANSI color ${input}`);
+    throw new TypeError(`color: Unknown ANSI color ${String(input)}`);
   }
 
   return color(fallback, theme);

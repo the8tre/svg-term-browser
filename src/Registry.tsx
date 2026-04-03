@@ -1,5 +1,4 @@
 import * as React from "react";
-import styled from "@emotion/styled";
 import { Cursor } from "./Cursor";
 import { Word } from "./Word";
 import { Attributes } from "load-asciicast";
@@ -44,11 +43,12 @@ export const Registry: React.FunctionComponent<RegistryProps> = props => {
       })}
       {props.hasFrames && [
         <symbol id="a" key="a">
-          <StyledBackground
+          <rect
             height={props.frameHeight}
             width={props.frameWidth}
             x="0"
             y="0"
+            fill="transparent"
           />
         </symbol>,
         props.hasCursors && (
@@ -111,7 +111,3 @@ const LineSymbol: React.FunctionComponent<LineSymbolProps> = props => {
     </symbol>
   );
 };
-
-const StyledBackground = styled.rect`
-  fill: transparent;
-`;

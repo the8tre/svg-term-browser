@@ -3,12 +3,19 @@
   "version": "2.0.3",
   "description": "Share terminal sessions via SVG and CSS",
   "main": "lib/index.js",
+  "module": "lib/esm/index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/esm/index.js",
+      "require": "./lib/index.js"
+    }
+  },
   "files": [
     "lib",
     "src"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && tsc -p tsconfig.esm.json",
     "clean": "npx rimraf lib",
     "debug": "node --inspect-brk \"$(npm bin)/jest\" -i",
     "deps": "npm run build && dependency-check . --missing && dependency-check . --extra --no-dev",

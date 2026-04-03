@@ -1,5 +1,4 @@
 import * as React from "react";
-import styled from "@emotion/styled";
 import { color, ColorInput } from "./color";
 
 type RectProps = React.SVGProps<"rect">;
@@ -12,12 +11,10 @@ export interface BackgroundProps {
 
 export const Background: React.FunctionComponent<BackgroundProps> = props => {
   return (
-    <StyledBackground
+    <rect
       height={props.height}
       width={props.width}
       fill={color(props.fill)!}
     />
   );
 };
-
-const StyledBackground = styled.rect``;

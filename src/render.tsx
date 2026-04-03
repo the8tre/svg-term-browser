@@ -1,6 +1,5 @@
 import * as React from "react";
-import { renderToStaticMarkup } from "react-dom/server";
-import styled from "@emotion/styled";
+import { renderToStaticMarkup } from "react-dom/server.browser";
 import { LoadCastOptions, loadCast, LoadedCast } from "./load-cast";
 import { defaultTheme, Theme } from "./default-theme";
 import { SvgTerm } from "./svg-term";

@@ -1,5 +1,4 @@
 import {flatMap, entries, groupBy, isEqual} from 'lodash';
-import hash from 'object-hash';
 import { LoadedCast, LoadedFrame } from './load-cast';
 import { Theme } from './default-theme';
 import { VersionOneFrame, VersionZeroFrame, Line, Cursor, Attributes } from 'load-asciicast';
@@ -64,7 +63,7 @@ export function toViewModel(options: ViewModelOptions): ViewModel {
           return {
             y: y * fontSize * lineHeight,
             words,
-            hash: hash(words),
+            hash: JSON.stringify(words),
             ref: null
           };
         });

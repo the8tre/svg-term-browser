@@ -1,6 +1,5 @@
 import React from "react";
 import { color, ColorInput } from "./color";
-import styled from "@emotion/styled";
 
 type RectProps = React.SVGProps<"rect">;
 
@@ -14,7 +13,7 @@ export interface CursorProps {
 
 export const Cursor: React.FunctionComponent<CursorProps> = props => {
   return (
-    <StyledCursor
+    <rect
       height={props.height}
       width={props.width}
       x={props.x}
@@ -23,5 +22,3 @@ export const Cursor: React.FunctionComponent<CursorProps> = props => {
     />
   );
 };
-
-const StyledCursor = styled.rect``;

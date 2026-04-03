@@ -1,5 +1,4 @@
 import * as React from "react";
-import styled from '@emotion/styled';
 import { color, ColorInput } from "./color";
 import { Theme } from "./default-theme";
 
@@ -19,66 +18,46 @@ export interface WordProps {
 }
 
 export const Word: React.FunctionComponent<WordProps> = props => {
+  const bgFill = props.inverse ? fg(props) : bg(props);
+  const textFill = props.inverse ? bg(props) : fg(props);
+
   return (
     <>
       {(props.inverse || props.bg) && (
-        <StyledWordBackground
-          bg={props.bg}
-          fg={props.fg}
+        <rect
+          fill={bgFill}
           height={props.theme.fontSize * props.theme.lineHeight}
-          inverse={props.inverse}
           width={props.children.length > 0 ? props.children.length : 0}
           x={props.x * props.theme.fontSize * 0.6}
           y={props.y - props.theme.fontSize}
         />
       )}
-      <StyledWord
-        bg={props.bg}
-        bold={props.bold}
-        fg={props.fg}
-        inverse={props.inverse}
-        theme={props.theme}
-        underline={props.underline}
+      <text
+        style={{
+          fill: textFill,
+          textDecoration: props.underline ? "underline" : undefined,
+          fontWeight: props.bold ? "bold" : undefined,
+          whiteSpace: "pre",
+        }}
         x={props.x * props.theme.fontSize * 0.6}
         y={props.y}
       >
         {props.children}
-      </StyledWord>
+      </text>
     </>
   );
 };
 
-const BG_FILL = (props: any) =>
-  props.inverse ? fg(props, props.theme) : bg(props, props.theme);
-const TEXT_FILL = (props: any) =>
-  props.inverse ? bg(props, props.theme) : fg(props, props.theme);
-const DECORATION = (props: any) => (props.underline ? "underline" : null);
-const FONT_WEIGHT = (props: any) => (props.bold ? "bold" : null);
-
-const StyledWordBackground = styled.rect<any>`
-  fill: ${BG_FILL};
-`;
-
-const StyledWord = styled.text<any>`
-  fill: ${TEXT_FILL};
-  text-decoration: ${DECORATION};
-  font-weight: ${FONT_WEIGHT};
-  white-space: pre;
-`;
-
-function bg(props: any, theme: any) {
-  const b = typeof props.bg === "undefined" ? theme.background : props.bg;
-  return color(b, theme, theme.background);
+function bg(props: WordProps): string | undefined {
+  const b = typeof props.bg === "undefined" ? undefined : props.bg;
+  return color(b as any, props.theme as any, (props.theme as any).background) ?? undefined;
 }
 
-function fg(props: any, theme: any) {
-  const d = props.bold ? theme.bold : theme.text;
-
-  // Bold takes precedence if fg is undefined or 0
+function fg(props: WordProps): string | undefined {
   if (props.bold && !props.fg) {
-    return color(theme.bold, theme);
+    return color((props.theme as any).bold, props.theme as any) ?? undefined;
   }
-
+  const d = props.bold ? (props.theme as any).bold : (props.theme as any).text;
   const f = typeof props.fg === "undefined" ? d : props.fg;
-  return color(f, theme, d);
+  return color(f, props.theme as any, d) ?? undefined;
 }

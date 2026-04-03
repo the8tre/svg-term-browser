@@ -1,5 +1,4 @@
 import * as React from "react";
-import styled from "@emotion/styled";
 import { Background } from "./Background";
 import { Document } from "./Document";
 import { Frame } from "./Frame";
@@ -24,10 +23,6 @@ export interface SvgTermProps {
   at?: number;
   cursor: boolean;
 }
-
-const StyledContainer = styled.g`
-  font-family: ${(props: any) => props.fontFamily};
-`;
 
 export const SvgTerm: React.FunctionComponent<SvgTermProps> = props => {
   const bound = { from: props.from, to: props.to, at: props.at, cast: props.cast };
@@ -56,9 +51,11 @@ export const SvgTerm: React.FunctionComponent<SvgTermProps> = props => {
         x={props.decorations ? 15 + props.paddingX : props.paddingX}
         y={props.decorations ? 50 + props.paddingY : props.paddingY}
       >
-        <StyledContainer
-          fontFamily={props.theme.fontFamily}
-          fontSize={props.theme.fontSize}
+        <g
+          style={{
+            fontFamily: props.theme.fontFamily,
+            fontSize: props.theme.fontSize,
+          }}
         >
           <Registry
             frameHeight={props.cast.height}
@@ -84,6 +81,7 @@ export const SvgTerm: React.FunctionComponent<SvgTermProps> = props => {
                 <Frame key={frame.stamp} offset={index} width={data.width}>
                   {frame.cursor.visible && (
                     <use
+                      key="cursor"
                       xlinkHref="#b"
                       x={frame.cursor.x - props.theme.fontSize * 1.2}
                       y={
@@ -103,9 +101,10 @@ export const SvgTerm: React.FunctionComponent<SvgTermProps> = props => {
                         />
                       );
                     }
-                    return line.words.map((word: any) => {
+                    return line.words.map((word: any, wordIndex: number) => {
                       return (
                         <Word
+                          key={`${index}-${wordIndex}`}
                           bg={word.attr.bg}
                           bold={word.attr.bold}
                           fg={word.attr.fg}
@@ -124,7 +123,7 @@ export const SvgTerm: React.FunctionComponent<SvgTermProps> = props => {
               );
             })}
           </Reel>
-        </StyledContainer>
+        </g>
       </Document>
     </Window>
   );
